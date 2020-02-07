@@ -1,0 +1,275 @@
+<html>
+
+    <head>
+        <title>Login</title>
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+    </head>
+
+
+    <style>
+        html, body {
+            font-size: larger;
+            font-weight: bold;
+            font-family: 'Amatic SC', cursive;
+            box-sizing: border-box;
+            display: flex;
+            margin: auto;
+            padding: auto;
+            height: 100%;
+        }
+
+        input {
+            font-size: medium;
+            font-weight: normal;
+            font-family: monospace;
+            background-color: black;
+            color:#ff4f00;
+            border: none;
+            outline: none;
+            padding: 4px;
+            resize: none;
+            height: 3vh;
+            width: 16vw;
+            min-height: 25px;
+            min-width: 220px;
+            transition: 0.3s;
+        }
+
+        button {
+            font-family: 'Amatic SC', cursive;
+            font-size: larger;
+            font-weight: bold;
+            height: 5vh;
+            width: 10vw;
+            min-height: 45px;
+            min-width:135px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-style: none;
+            outline: none;
+            transition: 0.1s;
+            color:white;
+            background-color: #ff4f00;
+            text-overflow: ellipsis;
+            overflow-wrap: initial;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            color: black;
+            background-color: #ffaf00;
+        }
+
+        #redirectButton{
+            width:50vw;
+            min-width: 550px;
+        }
+
+        #loginDiv{
+            min-width: 300px;
+        }
+
+        #login{
+            margin: 10px;
+        }
+
+        #loginDiv, #inputDiv {
+            display: flex;
+            flex-direction: column;
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: center;
+        }
+
+        #userLabel, #passLabel{
+            width: 4vw;
+            min-width: 40px;
+        }
+
+        #userDiv, #passDiv {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 3vh;
+            width: 20vw;
+            margin:10px;
+            justify-content: space-between;
+        }
+
+        #userBuffer, #passBuffer{
+            width: 4vw;
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 120vh; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            min-width: 600px;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50vw;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 56px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes animatetop {
+            from {top: -20vh; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 15px;
+            transition: 0.3s;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #ff4f00; 
+            transition: 0.3s;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff7f00; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:active {
+            background: #ffaf00; 
+            transition: 0.3s;
+        }
+
+    </style>
+
+    <body>
+
+        <div id="loginDiv">
+
+            <h2 id="login">Login</h2>
+
+            <div id="inputDiv">
+
+                <div id="userDiv">
+                    <span id="userLabel">User:</span>
+                    <input id="user" placeholder="Username here!"></input>
+                    <div id="userBuffer"></div>
+                </div>
+
+                <div id="passDiv">
+                    <span id="passLabel">Pass:</span>
+                    <input type="password" id="pass" placeholder="Password here!"></input>
+                    <div id="passBuffer"></div>
+                </div>
+
+            </div>
+            
+            <button type="button" onclick="run();">Submit</button>
+
+        </div>
+
+
+        <div id="myModal" class="modal">
+
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="popUp"></div>
+            </div>
+
+        </div>
+
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha256-bd8XIKzrtyJ1O5Sh3Xp3GiuMIzWC42ZekvrMMD4GxRg=" crossorigin="anonymous"></script>
+
+    <script>
+
+        var modal = $("#myModal");
+        var span = $(".close").first();
+        var popUp = $("#popUp");
+
+        span.click(function() {
+            modal.hide();
+        });
+
+        $(window).click(function(event) {
+            if (event.target.id == "myModal") {
+                modal.hide();
+            }
+        });
+
+        function run() {
+
+            axios.post('http://localhost:8080/api/login',
+
+                {
+                    username: $('#user').val(),
+                    password: $('#pass').val()
+                }
+
+            ).then(function(res) {
+
+                console.log(res);
+
+                modal.show();
+
+                popUp.html("<h2>I'm in!</h2>" 
+                    + "<p>" + res.data + "</p>"
+                    + "<button id=\"redirectButton\" onclick='location.href=\"/products\"'>" + "Then you're \"automatically\" transfered to the products page..." + "</button>");
+
+                localStorage.setItem("token", res.headers.token);
+
+            }).catch(function(err){
+
+                console.log(err.response);
+
+                modal.show();
+
+                popUp.html("<h2>Critical failure!</h2>" 
+                    + "<p>" + err.response.data + "</p>");
+
+            });
+
+        }
+
+    </script>
+
+</html>

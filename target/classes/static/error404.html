@@ -1,0 +1,105 @@
+<html>
+
+    <head>
+        <title>Error 404</title>
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+    </head>
+
+
+    <style>
+        html, body {
+            font-size: larger;
+            font-weight: bold;
+            font-family: 'Amatic SC', cursive;
+            box-sizing: border-box;
+            display: flex;
+            margin: auto;
+            padding: auto;
+            height: 100%;
+        }
+
+        button {
+            font-family: 'Amatic SC', cursive;
+            font-size: larger;
+            font-weight: bold;
+            height: 5vh;
+            width: 10vw;
+            min-height: 45px;
+            min-width:135px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-style: none;
+            outline: none;
+            transition: 0.3s;
+            color:white;
+            background-color: #ff4f00;
+            text-overflow: ellipsis;
+            overflow-wrap: initial;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            color: black;
+            background-color: #ffaf00;
+        }
+
+        #errorDiv{
+            min-width: 300px;
+        }
+
+        #errorDiv {
+            display: flex;
+            flex-direction: column;
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: center;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 15px;
+            transition: 0.3s;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #ff4f00; 
+            transition: 0.3s;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff7f00; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:active {
+            background: #ffaf00; 
+            transition: 0.3s;
+        }
+
+    </style>
+
+    <body>
+
+        <div id="errorDiv">
+
+            <h2>You shall not pass!</h2>
+
+            <p>You got a 404 and this is a generic redirect page!</p>
+            
+            <button type="button" onclick='location.href="http://localhost:8080/login";'>Back to Login</button>
+
+        </div>
+
+    </body>
+
+</html>
