@@ -36,7 +36,6 @@ public class ComponentDeserializer
             throws IOException, JsonProcessingException
     {
         JsonNode node = jp.getCodec().readTree(jp);
-        System.out.println(">>> "+node.toString());
 
         if(node.has("children")) {
             List<Component> children = new ArrayList<Component>();

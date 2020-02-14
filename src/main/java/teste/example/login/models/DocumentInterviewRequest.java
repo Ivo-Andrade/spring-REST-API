@@ -25,15 +25,15 @@ public class DocumentInterviewRequest {
     @JsonProperty("template")
     private String templateId;
 
-    private String filename;
+    private String filename = "output_file_" + new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss").format(new Date());
 
     @NotNull
     @JsonProperty("input")
     JsonNode inputContext;
 
-    private CompositionStrategyConfig output;
+    private CompositionStrategyConfig output = CompositionStrategyConfig.text;
 
-    private TraversalStrategyConfig traversal;
+    private TraversalStrategyConfig traversal = TraversalStrategyConfig.compose;
 
     public void setFilename(String filename) {
         this.templateId = (filename == null) ? "output_file_" + new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss").format(new Date()) : filename;

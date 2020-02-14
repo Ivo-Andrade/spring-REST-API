@@ -15,9 +15,8 @@ public class ProductServiceImpl
     implements ProductService 
 {
 
-    @Autowired
     @Qualifier("memory")
-    private ProductDao productDao;
+    @Autowired private ProductDao productDao;
     
 	public List<Product> getProducts() {
         return productDao.findAll();

@@ -34,10 +34,9 @@ public class TextLeaf
         Component node
         , JsonNode inputContext
     ) {
-        this.compose(node, textValue + " ");
+        this.compose(node, textValue);
     }
 
-    @Override
     public void compose(Component node, String append) {
         this.getOutput().getStrategy().compose(node, append);
 

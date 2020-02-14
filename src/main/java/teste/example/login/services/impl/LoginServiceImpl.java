@@ -12,12 +12,9 @@ import teste.example.login.services.*;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
     @Qualifier("memory")
-    private UserDao userDao;
-
-    @Autowired
-    private TokenService tokenService;
+    @Autowired private UserDao userDao;
+    @Autowired private TokenService tokenService;
 
     public Token verifyLogin( LoginRequest loginRequest ) {
         if (userDao.findByUsername(loginRequest.getUsername()).getPassword().equals(loginRequest.getPassword()))

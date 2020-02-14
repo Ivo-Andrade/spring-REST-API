@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/login")
 public class LoginController {
 
-    @Autowired
-    LoginService loginService;
+    @Autowired LoginService loginService;
 
     @PostMapping("")
     public Token performLogin(@RequestBody @Valid LoginRequest loginRequest){

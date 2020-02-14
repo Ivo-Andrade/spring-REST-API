@@ -6,13 +6,13 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.hibernate.annotations.Type;
 
 import lombok.*;
-import teste.example.login.exceptions.InvalidDocumentTemplateException;
 import teste.example.login.hash.DocumentTemplateHash;
 
 @Data
@@ -32,7 +32,8 @@ public class DocumentTemplate extends DocumentTemplateHash {
     private User user;
 
     @NotBlank
-    private String name;
+    @Column(name = "document_name")
+    private String documentName;
 
     @Lob
     @NotBlank
@@ -40,13 +41,17 @@ public class DocumentTemplate extends DocumentTemplateHash {
     @Column(name = "tree_json")
     private String treeJson;
 
+    @Transient
+    @JsonProperty("tree")
+    private JsonNode treeNode;
+
     @Column(unique = true)
     private Integer hash = this.hashCode();
 
-    public DocumentTemplate(User user, String name, String treeJson) {
+    public DocumentTemplate(User user, String documentName, String treeJson) {
         try {
             this.user = user;
-            this.name = name;
+            this.documentName = documentName;
             this.treeJson = treeJson;
             this.id = UUID.randomUUID();
         } finally {
@@ -54,23 +59,21 @@ public class DocumentTemplate extends DocumentTemplateHash {
         }
     }
 
-    public JsonNode getTree() {
+    public JsonNode getTreeNode() {
         try {
-            return new ObjectMapper().readValue(treeJson, JsonNode.class);
+            return new ObjectMapper().readTree(this.treeJson);
         } catch (Exception e) {
-            throw new InvalidDocumentTemplateException();
+            throw new RuntimeException();
         }
     }
 
-    public void setTree() {}
+    public void setTreeNode(JsonNode node) {}
 
     public Integer getHash() {
         return this.hashCode();
     }
 
-    public void setHash(Integer hash) {
-        return;
-    }
+    public void setHash(Integer hash) { }
 
     public int hashCode() {
         return this.hashCode(this);

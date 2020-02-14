@@ -22,7 +22,7 @@ public abstract class DocumentTemplateHash
         
         return documentTemplate.getId() == documentTemplateObj.getId()
             && documentTemplate.getUser().equals(documentTemplateObj.getUser())
-            && documentTemplate.getName().equals(documentTemplateObj.getName())
+            && documentTemplate.getDocumentName().equals(documentTemplateObj.getDocumentName())
             && documentTemplate.getTreeJson().equals(documentTemplateObj.getTreeJson());
     }
 

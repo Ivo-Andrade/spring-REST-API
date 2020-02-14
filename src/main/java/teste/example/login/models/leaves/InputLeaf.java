@@ -37,7 +37,6 @@ public class InputLeaf
         this.compose(node, inputContext.get(inputField).asText());
     }
 
-    @Override
     public void compose(Component node, String append) {
         this.getOutput().getStrategy().compose(node, append);
     }
