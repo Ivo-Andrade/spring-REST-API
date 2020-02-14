@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import teste.example.login.models.DocumentTemplateRequest;
 import teste.example.login.models.Token;
 import teste.example.login.services.TokenService;
 
@@ -18,6 +19,11 @@ public class TokenValidationAspect {
     @Before("@annotation(teste.example.login.aspects.annotations.TokenValidationAdvice) && args(@RequestBody token)")
     public void tokenValidation(JoinPoint joinPoint, Token token) {
         tokenService.verifyToken(token);
+    }
+
+    @Before("@annotation(teste.example.login.aspects.annotations.TokenValidationAdvice) && args(@RequestBody documentTemplateRequest)")
+    public void tokenValidation(JoinPoint joinPoint, DocumentTemplateRequest documentTemplateRequest) {
+        tokenService.verifyToken(documentTemplateRequest.getToken());
     }
 
 }

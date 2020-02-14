@@ -2,6 +2,7 @@ package teste.example.login.dao.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -22,9 +23,9 @@ public class UserDaoMemoryImpl
 
     @PostConstruct
     public void init() {
-        userList.add(new User(1L,"MEMORY_User_A", "passUser","description_A"));
-        userList.add(new User(2L,"MEMORY_User_B", "passUser","description_B"));
-        userList.add(new User(3L,"MEMORY_User_C", "passUser","description_C"));
+        userList.add(new User(UUID.randomUUID(),"MEMORY_User_A", "passUser","description_A"));
+        userList.add(new User(UUID.randomUUID(),"MEMORY_User_B", "passUser","description_B"));
+        userList.add(new User(UUID.randomUUID(),"MEMORY_User_C", "passUser","description_C"));
     }
 
     public void create(User newInstance) {
@@ -33,6 +34,14 @@ public class UserDaoMemoryImpl
         } catch (Exception e) {
             throw new UserDaoException("An error occurred while trying to create the user in the database!",e);
         }
+    }
+
+    public User findById(UUID id) {
+        for(User user : userList) {
+            if( user.getId() == id)
+                return user;
+        }
+        throw new UserNotFoundException("User not found!");
     }
 
     public List<User> findAll() {

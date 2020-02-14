@@ -14,6 +14,8 @@ import teste.example.login.models.Component;
 import teste.example.login.models.Composite;
 import teste.example.login.models.leaves.InputLeaf;
 import teste.example.login.models.leaves.TextLeaf;
+import teste.example.login.strategies.outputs.CompositionStrategyConfig;
+import teste.example.login.strategies.traversals.TraversalStrategyConfig;
 
 public class ComponentDeserializer 
     extends StdDeserializer<Component>
@@ -38,25 +40,31 @@ public class ComponentDeserializer
         if(node.has("children")) {
             List<Component> children = new ArrayList<Component>();
 
-            for ( JsonNode childNode : node.get("children") ) {
+            if (node.has("children")) for ( JsonNode childNode : node.get("children") ) {
                 children.add(jp.getCodec().treeToValue(childNode, Component.class));
             }
 
             return new Composite(
-                children
-                , node.get("reference").asText()
+                (node.has("tag")) ? node.get("tag").asText() : Composite.class.getSimpleName()
+                , CompositionStrategyConfig.defaultComposition
+                , children
+                , (node.has("reference")) ? node.get("reference").asText() : ""
+                , (node.has("traversal")) ? TraversalStrategyConfig.valueOf(node.get("traversal").asText()) : TraversalStrategyConfig.defaultTraversal
             );
         }
         else if(node.has("input"))
             return new InputLeaf(
-                node.get("input").asText()
-                , node.get("value").asText()
+                (node.has("tag")) ? node.get("tag").asText() : InputLeaf.class.getSimpleName()
+                , CompositionStrategyConfig.defaultComposition
+                , node.get("input").asText()
             );
         else if(node.has("text"))
             return new TextLeaf(
-                node.get("text").asText()
+                (node.has("tag")) ? node.get("tag").asText() : TextLeaf.class.getSimpleName()
+                , CompositionStrategyConfig.defaultComposition
+                , node.get("text").asText()
             );
-        throw new IOException("Error parsing component type!");
+        throw new IOException("Error parsing component type "+node.toString());
     }
     
 }

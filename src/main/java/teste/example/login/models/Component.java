@@ -3,31 +3,29 @@ package teste.example.login.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-// import com.fasterxml.jackson.annotation.JsonSubTypes;
-// import com.fasterxml.jackson.annotation.JsonTypeInfo;
-// import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import teste.example.login.deserializer.ComponentDeserializer;
-// import teste.example.login.models.leaves.*;
+import teste.example.login.strategies.traversals.Traversal;
+import teste.example.login.strategies.outputs.*;
 
 @Data
+@AllArgsConstructor
 @JsonDeserialize(using = ComponentDeserializer.class)
-// @JsonTypeInfo(
-//     use = JsonTypeInfo.Id.NONE
-// )
-// @JsonSubTypes({
-//     @Type(value = Composite.class, name="composite")
-//     , @Type(value = InputLeaf.class, name="input")
-//     , @Type(value = TextLeaf.class, name ="text")
-// })
-public abstract class Component {
+public abstract class Component 
+    implements Traversal
+{
 
     @NotBlank
-    private String tag = this.getClass().getSimpleName();
+    private String tag;
+    
+    @NotNull
+    private CompositionStrategyConfig output;
 
     public Boolean isLeaf() {
         return true;
@@ -42,10 +40,5 @@ public abstract class Component {
     public String getReference() {
         return null;
     }
-    
-    public abstract void traverse(
-        Component node
-        // , JsonNode inputContext
-    );
 
 }

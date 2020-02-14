@@ -8,6 +8,8 @@ public interface GenericDao<T, PK extends Serializable> {
     void create(T newInstance);
 
     List<T> findAll();
+
+    T findById(PK id);
     
     T update(T transientObject);
 

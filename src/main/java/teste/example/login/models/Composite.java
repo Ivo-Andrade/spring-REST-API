@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import lombok.*;
+import teste.example.login.strategies.outputs.CompositionStrategyConfig;
+import teste.example.login.strategies.traversals.TraversalStrategyConfig;
 
 @Data
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 public class Composite 
     extends Component
@@ -20,8 +22,24 @@ public class Composite
     @Valid
     private List<Component> children = new ArrayList<Component>();
     
-    @NotBlank
-    private String reference;
+    @NotNull
+    private String reference = "";
+
+    @NotNull
+    private TraversalStrategyConfig traversal = TraversalStrategyConfig.defaultTraversal;
+
+    public Composite(
+        String tag
+        , CompositionStrategyConfig output
+        , List<Component> children
+        , String reference
+        , TraversalStrategyConfig traversal
+    ) {
+        super(tag, output);
+        this.children = children;
+        this.reference = reference;
+        this.traversal = traversal;
+    }
 
     public final void addChild ( 
         Component child
@@ -39,11 +57,9 @@ public class Composite
 
     public void traverse(
         Component node
-        // , JsonNode inputContext
+        , JsonNode inputContext
     ) {
-        System.out.println("Traversing \""+this.getTag()+"\" with reference \""+this.getReference()+"\" and "+this.getChildren().size()+" children");
-        for( Component child : node.getChildren() ) { child.traverse(child); }
-        // traversal.traverse(this, inputContext);
+        traversal.getStrategy().traverse(this, inputContext);
     }
 
 }
