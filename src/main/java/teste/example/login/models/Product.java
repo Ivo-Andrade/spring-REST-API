@@ -1,7 +1,11 @@
 package teste.example.login.models;
 
+import java.util.UUID;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import org.hibernate.annotations.Type;
 
 import lombok.*;
 
@@ -11,9 +15,10 @@ import lombok.*;
 @Data
 public class Product {
 
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Long id;
+    @Id
+    @Type(type="org.hibernate.type.UUIDCharType")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     
     @NotBlank
     @Size(min = 4, max = 256)

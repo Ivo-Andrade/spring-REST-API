@@ -2,6 +2,7 @@ package teste.example.login.dao.product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -22,9 +23,9 @@ public class ProductDaoMemoryImpl
 
     @PostConstruct
     public void init() {
-		productList.add(new Product(1L, "MEMORY_Product_A", "A_Make", 12.34));
-		productList.add(new Product(2L, "MEMORY_Product_B", "A_Make", 43.21));
-		productList.add(new Product(3L, "MEMORY_Product_A", "1_Make", 11.22));
+		productList.add(new Product(UUID.randomUUID(),"MEMORY_Product_A", "A_Make", 12.34));
+		productList.add(new Product(UUID.randomUUID(),"MEMORY_Product_B", "A_Make", 43.21));
+		productList.add(new Product(UUID.randomUUID(),"MEMORY_Product_A", "1_Make", 11.22));
     }
 
     public void create(Product newInstance) {
@@ -33,6 +34,14 @@ public class ProductDaoMemoryImpl
         } catch (Exception e) {
             throw new ProductDaoException("An error occurred while trying to create the product in the database!",e);
         }
+    }
+
+    public Product findById (UUID id) {
+        for(Product product : productList) {
+            if( product.getId() == id)
+                return product;
+        }
+        throw new ProductNotFoundException("Product not found!");
     }
 
     public List<Product> findAll() {

@@ -1,12 +1,13 @@
 package teste.example.login.dao.product;
 
 import java.util.List;
+import java.util.UUID;
 
 import teste.example.login.dao.GenericDao;
 import teste.example.login.models.Product;
 
 public interface ProductDao
-    extends GenericDao<Product,Long>
+    extends GenericDao<Product,UUID>
 {
 
     List<Product> findByName(String name);
